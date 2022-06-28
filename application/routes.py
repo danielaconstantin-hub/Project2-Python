@@ -3,9 +3,9 @@ from application.models import Reader
 from application.forms import ReaderForm
 from flask import redirect, url_for, render_template, request
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/home', methods=['GET', 'POST'])
-def register():
+#@app.route('/', methods=['GET', 'POST'])
+@app.route('/reader', methods=['GET', 'POST'])
+def add_reader():
     message = ""
     form = ReaderForm()
 
@@ -19,8 +19,38 @@ def register():
             message = "Please supply first name, last name, user_name and password"
         else:
             message = f'Thank you, {first_name} {last_name}'
-
+        
+           
     return render_template('home.html', form=form, message=message)
+
+
+@app.route('/about')
+def about():
+  return render_template('about.html')
+
+@app.route('/reader', methods=['GET', 'POST'])
+def read_reader():
+    reader = Reader.query.all()
+    return render_template('reader.html', reader=reader)
+
+@app.route('/update/<int:id>', methods= ['GET', 'POST'])
+def update_reader(reader_id):
+    form = ReaderForm()
+    reader = Reader.query.get(reader_id)
+    if form.validate_on_submit():
+        reader.update_reader = form.reader.data
+        db.session.commit()
+        return redirect(url_for('update_reader'))
+    elif request.method == 'GET':
+        form.reader.data = reader.update_reader
+    return render_template('update_reader.html', form=form)
+
+@app.route('/delete/<int:id>')
+def delete_reader(reader_id):
+    reader_text = Reader.query.get(reader_id)
+    db.session.delete(reader_text)
+    db.session.commit()
+    return redirect(url_for('read', reader_text=reader_text))
 
 if __name__ == '__main__':
      app.run(debug=True, host='0.0.0.0')
