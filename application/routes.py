@@ -7,64 +7,60 @@ from flask import redirect, url_for, render_template, request
 def home():
     return render_template("home.html")
 
-@app.route('/index')
-def index():
-    reader = Reader.query.all()
-    return render_template("reader.html", reader=reader)
+# @app.route('/index')
+# def index():
+#    rds = Reader.query.all()
+#    return render_template("readerlist.html", reader=rds)
+
 
 @app.route('/about')
 def about():
   return render_template('about.html')
 
-#@app.route('/', methods=['GET', 'POST'])
-@app.route('/add', methods=['GET', 'POST'])
 
+@app.route('/add_reader', methods=['GET', 'POST'])
 def add_reader():
-    message = ""
     form = ReaderForm()
-
     if request.method == 'POST':
         if form.validate_on_submit():
             readerData = Reader(
-                first_name = form.first_name.data
-                last_name = form.last_name.data
-                user_name = form.user_name.data
+                first_name = form.first_name.data, 
+                last_name = form.last_name.data,
+                user_name = form.user_name.data,
                 password = form.password.data
             )
-        if len(first_name) == 0 or len(last_name) == 0 or len(user_name) == 0 or len(password) == 0 :
-            message = "Please supply first name, last name, user_name and password"
-        else:
-            message = f'Thank you, {first_name} {last_name}'
-
             db.session.add(readerData)
             db.session.commit()
-            return redirect(url_for('index'))
-    return render_template('reader.html', form=form, message=message)
+            return redirect(url_for('read_reader'))
+    return render_template('reader.html', form=form)
 
-
-@app.route('/reader', methods=['GET', 'POST'])
+@app.route('/read_reader', methods=['GET', 'POST'])
 def read_reader():
     reader = Reader.query.all()
-    return render_template('reader.html', reader=reader)
+    return render_template('readerlist.html', reader=reader)
 
-@app.route('/update/<int:id>', methods= ['GET', 'POST'])
+@app.route('/update_reader/<int:reader_id>', methods= ['GET','POST'])
 def update_reader(reader_id):
-    form = ReaderForm()
     reader = Reader.query.get(reader_id)
+    form = ReaderForm()
     if form.validate_on_submit():
-        reader.update_reader = form.reader.data
+        reader.first_name= form.first_name.data
+        reader.last_name= form.last_name.data
+        reader.user_name = form.user_name.data
+        reader.password = form.password.data
         db.session.commit()
-        return redirect(url_for('update_reader'))
+        return redirect(url_for('read_reader'))
     elif request.method == 'GET':
-        form.reader.data = reader.update_reader
+        form.first_name.data = reader.first_name
+        form.last_name.data = reader.last_name
+        form.user_name.data = reader.user_name
+        form.password.data = reader.password 
     return render_template('update_reader.html', form=form)
 
-@app.route('/delete/<int:id>')
+@app.route('/delete_reader/<int:reader_id>')
 def delete_reader(reader_id):
     reader_text = Reader.query.get(reader_id)
     db.session.delete(reader_text)
     db.session.commit()
-    return redirect(url_for('read', reader_text=reader_text))
+    return redirect(url_for('read_reader'))
 
-if __name__ == '__main__':
-     app.run(debug=True, host='0.0.0.0')

@@ -14,4 +14,4 @@ class Book(db.Model):
     author = db.Column(db.String(50), nullable=False)
     genre = db.Column(db.String(50), nullable=False)
     review = db.Column(db.String(50), nullable=False)
-    first_name= db.Column(db.String, db.ForeignKey('reader.first_name'))
+    fkreader= db.Column(db.String, db.ForeignKey('reader.reader_id'))
