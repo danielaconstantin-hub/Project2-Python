@@ -8,4 +8,10 @@ class ReaderForm(FlaskForm):
     password = StringField("Password")
     submit = SubmitField("Submit")
 
-
+class BookForm(FlaskForm):
+    book_title = StringField("Book Title")
+    author = StringField("Author")
+    genre = StringField("Genre")
+    review = StringField("Review")
+    #first_name = StringField..............
+    submit = SubmitField("Submit")

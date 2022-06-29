@@ -1,23 +1,8 @@
-<html>
-    <head>
-        <title>Add a new Reader</title>
-    </head>
-    <body>
-        <div class='form'>
-            <form method='POST' action=''>
-                {{ form.hidden_tag() }}
-                {{ form.first_name.label }} {{ form.first_name }}
-                <br>
-                {{ form.last_name.label }} {{ form.last_name }}
-                <br>
-                {{ form.user_name.label }} {{ form.user_name }}
-                <br>
-                {{ form.password.label }} {{ form.password }}
-                <br>
-                {{ form.submit }}
-                <br>
-            {{ message }}
-            </form>
-        </div>
-    </body>
-</html>
+{% extends "layout.html" %}
+{% block body %}
+<head> 
+    <title> Welcome to this Library</title>
+</head>
+<br>
+<p>Welcome to this Library </p>
+{% endblock body %}

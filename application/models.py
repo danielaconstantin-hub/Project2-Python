@@ -6,6 +6,7 @@ class Reader(db.Model):
     last_name = db.Column(db.String(50))
     user_name = db.Column(db.String(50))
     password = db.Column(db.String(50))
+    book = db.relationship('Book', backref='reader' )
 
 class Book(db.Model):
     book_id = db.Column(db.Integer, primary_key=True)
@@ -13,4 +14,4 @@ class Book(db.Model):
     author = db.Column(db.String(50), nullable=False)
     genre = db.Column(db.String(50), nullable=False)
     review = db.Column(db.String(50), nullable=False)
-    first_name= db.relationship(db.String, db.ForeignKey('reader.first_name'))
+    first_name= db.Column(db.String, db.ForeignKey('reader.first_name'))
