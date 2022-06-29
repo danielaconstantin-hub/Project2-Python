@@ -13,5 +13,4 @@ class BookForm(FlaskForm):
     author = StringField("Author")
     genre = StringField("Genre")
     review = StringField("Review")
-    #first_name = StringField..............
     submit = SubmitField("Submit")
