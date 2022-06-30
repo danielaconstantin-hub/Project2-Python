@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, SubmitField
+from wtforms import StringField, BooleanField, SubmitField, SelectField
 
 class ReaderForm(FlaskForm):
     first_name = StringField("First Name")
@@ -9,8 +9,11 @@ class ReaderForm(FlaskForm):
     submit = SubmitField("Submit")
 
 class BookForm(FlaskForm):
+    book_genre = ["Fiction","Cooking", "Action&Adventure","Biography", "Autobiography" ]
+    book_review = ["1*", "2*", "3*", "4*", "5*"]
+
     book_title = StringField("Book Title")
     author = StringField("Author")
-    genre = StringField("Genre")
-    review = StringField("Review")
+    genre = SelectField("Genre", choices=book_genre)
+    review = SelectField("Review", choices=book_review)
     submit = SubmitField("Submit")
