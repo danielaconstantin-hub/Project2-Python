@@ -142,3 +142,16 @@ class TestDeleteBook(TestBase):
             url_for('delete_book', book_id = 1)
         )
         assert len(Book.query.all()) == 0   
+
+class TestUpdateReader(TestBase):
+    def test_update_reader(self):
+        response = self.client.post(
+            'updatereader/1',
+            data = dict(first_name = "Daniela",
+            last_name = 'Constantin', 
+            user_name = "danactin", 
+            password = "1234"
+            )
+       
+        )
+        self.assertIn(b'Daniela', response.data)
