@@ -73,10 +73,12 @@ def add_book():
     if request.method == 'POST':
         if form.validate_on_submit():
             bookData = Book(
+                fkreader = form.fkreader.data,
                 book_title = form.book_title.data, 
                 author = form.author.data,
                 genre  = form.genre.data,
                 review = form.review.data
+                
             )
             db.session.add(bookData)
             db.session.commit()
