@@ -1,3 +1,4 @@
+# Import the necessary modules
 from flask import url_for
 from flask_testing import TestCase
 
@@ -12,7 +13,7 @@ class TestBase(TestCase):
     def create_app(self):
 
         # Pass in testing configurations for the app. 
-        # use sqlite database
+        # Here we use sqlite without a persistent database for our tests.
         app.config.update(SQLALCHEMY_DATABASE_URI="sqlite:///data.db",
                 SECRET_KEY="TEST_SECRET_KEY",
                 DEBUG=True,
@@ -20,21 +21,83 @@ class TestBase(TestCase):
                 )
         return app
 
-  def setUp(self):
+    def setUp(self):
         # Create table
         db.create_all()
-        rootReader = Reader(first_name="root",last_name="root",user_name="root", password="root")
-        db.session.add(rootReader)
+        # Create test registree
+        testReader = Reader(first_name="Dana",last_name="Constantin",user_name="danactin", password="root")
+        # save users to database
+        db.session.add(testReader)
         db.session.commit()
 
-        rootReader = Reader(first_name="admin",last_name="admin",user_name="admin", password="admin")
-        db.session.add(rootReader)
-        db.session.commit()
+        testBook = Book(
+            #fkreader="1", 
+            book_title="Murder in Hampstead", 
+            author="Sabina Manea", 
+            genre="Fiction",
+            review="5* out of 5*")
 
-        rootReader= Reader(message="root" ,reader_id=1)
-        db.session.add(rootReader)
-        db.session.commit()
+        testBook2 = Book(
+            #fkreader="1", 
+            book_title="Mary Berry Quick Cooking", 
+            author="Mary Berry", 
+            genre="Cooking",
+            review="5* out of 5*")
 
-        root= Book(message="admin" ,userID=2)
-        db.session.add(rootBook)
-        db.session.commit()
+    # Will be called after every test
+    def tearDown(self):
+    # Close the database session and remove all contents of the database
+     db.session.remove()
+     db.drop_all()
+
+    # Write a test class to test Read functionality
+class TestViewsReader(TestBase):
+    def test_add_reader_get(self):
+        response = self.client.get(url_for('read_reader'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Dana', response.data)
+
+    def test_read_reader_get(self):
+        response = self.client.get(url_for('read_reader'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Dana', response.data)
+
+    def test_update_reader_get(self):
+        response = self.client.get(url_for("read_reader", reader_id=1))
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_reader_get(self):
+        response = self.client.get(url_for("read_reader", id=1))
+        self.assertEqual(response.status_code, 200)
+
+class TestViewsBook(TestBase):
+    def test_add_book_get(self):
+        response = self.client.get(url_for('read_book'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Murder in Hampstead', response.data)
+
+    def test_read_book_get(self):
+        response = self.client.get(url_for('read_book'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Murder in Hampstead', response.data)
+
+    def test_update_book_get(self):
+        response = self.client.get(url_for('read_book'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Murder in Hampstead', response.data)
+
+    def test_delete_book_get(self):
+        response = self.client.get(url_for('read_book'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Mary Berry Quick Cooking', response.data)
+
+class TestViewsHome(TestBase):
+    def testHome(self):
+        response = self.client.get(url_for('home')) # send a GET request
+        self.assertEqual(response.status_code, 200) # assert that the response code is 200
+        self.assertIn(b'Welcome to this Library', response.data) # assert that the website's title is present in the HTTP response's data
+
+    def testAbout(self):
+        response = self.client.get(url_for('about'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'This is the about page!', response.data)
