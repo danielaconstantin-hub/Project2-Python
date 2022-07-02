@@ -22,11 +22,11 @@ Github
 
 Steps to create the application:
 GCP Compute Engine - create instance, firewall rules: port 5000 and port 8080, open to all ip addresses, medium Ubuntu
-create key in VS and add it to the instance
-connect to host from VS
-clone git repository
-start creating the app
-CRUD Reader
-CRUD Book
-Testing
+create key in VS and add it to the instance,
+connect to host from VS,
+clone git repository,
+start creating the app,
+CRUD Reader,
+CRUD Book,
+Testing,
 Jenkins, Webhook
