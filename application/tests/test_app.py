@@ -93,9 +93,12 @@ class TestViewsBook(TestBase):
 
 class TestViewsHome(TestBase):
     def testHome(self):
-        response = self.client.get(url_for('home')) # send a GET request
-        self.assertEqual(response.status_code, 200) # assert that the response code is 200
-        self.assertIn(b'Welcome to this Library', response.data) # assert that the website's title is present in the HTTP response's data
+        response = self.client.get(url_for('home')) 
+        # send a GET request
+        self.assertEqual(response.status_code, 200) 
+        # assert that the response code is 200
+        self.assertIn(b'Welcome to this Library', response.data) 
+        # assert that the website's title is present in the HTTP response's data
 
     def testAbout(self):
         response = self.client.get(url_for('about'))
