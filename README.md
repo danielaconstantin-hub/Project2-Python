@@ -1,6 +1,8 @@
 # Project2-Python
 JIRA https://danielaconstantin.atlassian.net/
 ERD Library![ERD-Library](https://user-images.githubusercontent.com/104452519/176775980-fedfdc0d-327c-4b1f-9cf8-46b8f757e9d4.png)
+ERD for future development:<img width="544" alt="image" src="https://user-images.githubusercontent.com/104452519/177133328-b3aa4b76-2d68-4c0b-b15e-933b4dc5c178.png">
+
 
 The tech stack required would be the following:
 
