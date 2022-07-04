@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<h1>Books</h1>
+{% for bks in book %}
+
+<br>
+<p>Book Reader: {{ bks.fkreader }}</p>
+<p>Book Title: {{ bks.book_title }}</p>
+<p>Author: {{ bks.author }} </p>
+<p>Genre: {{ bks.genre }} </p>
+<p>Review: {{ bks.review }} </p>
+
+
+<p>
+<form action='{{ url_for("update_book", book_id=bks.book_id) }}'>
+<button type="submit">Update book</button></form>    
+<form action='{{ url_for("delete_book", book_id=bks.book_id) }}'> 
+<button type="submit">Delete book</button></form>   
+</p>
+
+{% endfor %} 
+{% endblock %}

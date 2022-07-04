@@ -1,0 +1,19 @@
+[Unit]
+Description = Testapp.service
+
+[Service]
+User=jenkins
+WorkingDirectory=/home/jenkins/.jenkins/workspace/project
+Environment=DATABASE_URI=sqlite:///data.db
+Environment=SECRET_KEY=shhhhh
+ExecStart=/bin/sh \
+     -c 'python3 -m venv venv &&\
+    . ./venv/bin/activate &&\
+    pip3 install -r requirements.txt &&\
+    export SQLALCHEMY_DATABASE_URI='sqlite:///data.db'
+    export SECRET_KEY='secret'
+    python3 create.py &&\
+    python3 app.py'
+
+ [Install]
+    WantedBy=multi-user.target

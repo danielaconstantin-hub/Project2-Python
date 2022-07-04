@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<h1>Readers</h1>
+{% for rds in reader %}
+<hr>
+<br>
+<p>First Name: {{ rds.first_name }}</p>
+<p>Last Name: {{ rds.last_name }} </p>
+<p>User Name: {{ rds.user_name }} </p>
+
+
+<p>
+<form action='{{ url_for("update_reader", reader_id=rds.reader_id) }}'>
+<button type="submit">Update reader</button></form>    
+<form action='{{ url_for("delete_reader", reader_id=rds.reader_id) }}'> 
+<button type="submit">Delete reader</button></form>   
+</p>
+
+{% endfor %} 
+{% endblock %}
